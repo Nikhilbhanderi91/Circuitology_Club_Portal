@@ -17,7 +17,7 @@
     }
 
     body {
-      /* background-image: url('https://images.pexels.com/photos/785418/pexels-photo-785418.jpeg?auto=compress&cs=tinysrgb&w=1200'); */
+      background-image: url('1.webp');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -36,6 +36,7 @@
       color: var(--primary-color);
       text-align: center;
       margin-bottom: 20px;
+      color: #dbdada;
     }
 
     .cards-container {
@@ -87,14 +88,14 @@
     }
 
     .btn:hover {
-      background-color: #00a94d;
+      background-color: #000000;
     }
 
     .divider {
       margin: 40px 0 20px;
       font-size: 24px;
       font-weight: 600;
-      color: #333;
+      color: #dbdada;
       text-align: center;
     }
 
@@ -156,7 +157,7 @@
     }
 
     input[type="submit"]:hover {
-      background-color: #00a94d;
+      background-color: #729f86;
     }
 
     .ranking {
@@ -171,33 +172,34 @@
 </head>
 <body>
   <section class="section">
-    <h2>🎉 Circuitology Club Events</h2>
-
-    <div class="divider">🔜 Upcoming Events</div>
+    
+    <h2> Circuitology Club Events</h2>
+    
+    <div class="divider">Upcoming Events</div>
     <div class="cards-container">
       <div class="card">
         <h3>PCB Design Workshop</h3>
         <p>Learn hands-on PCB design using KiCad/Eagle. Perfect for beginners and pros alike.</p>
         <div class="event-date">Event Date: 25th April 2025</div>
-        <button class="btn" onclick="openModal('registerModal1')">Register</button>
+        <button class="btn" onclick="checkLoginAndRegister('registerModal1')">Register</button>
       </div>
 
       <div class="card">
         <h3>IoT-Based Project Building</h3>
         <p>Build smart solutions using sensors, ESP32, and cloud platforms. Bring your ideas to life!</p>
         <div class="event-date">Event Date: 5th May 2025</div>
-        <button class="btn" onclick="openModal('registerModal2')">Register</button>
+        <button class="btn" onclick="checkLoginAndRegister('registerModal2')">Register</button>
       </div>
 
       <div class="card">
         <h3>Hardware Hackathon</h3>
         <p>Team up and innovate! Create hardware prototypes for real-world problems in 24 hours.</p>
         <div class="event-date">Event Date: 15th June 2025</div>
-        <button class="btn" onclick="openModal('registerModal3')">Register</button>
+        <button class="btn" onclick="checkLoginAndRegister('registerModal3')">Register</button>
       </div>
     </div>
 
-    <div class="divider">✅ Finished Events</div>
+    <div class="divider">Finished Events</div>
     <div class="cards-container">
       <div class="card">
         <h3>Embedded Systems Challenge</h3>
@@ -318,6 +320,23 @@
       document.getElementById("rank3").innerText = winners[2];
       openModal("summaryModal");
     }
-  </script>
+  
+  function checkLoginAndRegister(modalId) {
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    if (!isLoggedIn) {
+      alert("You need to be logged in to register for an event.");
+      window.location.href = "login.html";
+    } else {
+      openModal(modalId);
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    alert("You have been logged out.");
+    location.reload();
+  }
+</script>
+
 </body>
 </html>
