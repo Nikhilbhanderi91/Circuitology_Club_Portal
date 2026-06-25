@@ -690,7 +690,7 @@
         <div class="text-box">
             <h1>Circuitology Club</h1>
             <p>Where circuits come to life! Join our hardware enthusiasts community to explore electronics, embedded systems, IoT, and cutting-edge hardware technologies through hands-on projects and collaborative learning.</p>
-            <a href="#register" class="hero-btn">Join Our Next Workshop</a>
+            <a href="./project8.html" class="hero-btn">Join Our Next Workshop</a>
         </div>
     </section>
 
@@ -827,21 +827,25 @@
     <section class="footer">
         <h4>Circuitology Club</h4>
         <p>
-            Department of Electronics & Communication<br>
-            ICT Building, MU Campus<br>
-            Contact: circuitology@mu.edu | +91 XXXXX XXXXX
+            Department of Information communication Technology<br>
+            MA108,Main Building Mu campus<br>
+            Contact: circuitology@mu.edu | +91 9723265278
         </p>
 
         <div class="icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-        </div>
+            <a href="https://www.instagram.com/circuitology_club?igsh=Mmt6YTA2d3BsOG9r" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.linkedin.com/company/circuitology-club/" target="_blank">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://www.youtube.com/@ICTMarwadiUniversity" target="_blank">
+                <i class="fab fa-youtube"></i>
+            </a>
+        </div>  
 
         <div class="copy">
-            &copy; 2024 Circuitology Club. All rights reserved.
+            &copy; 2025 Circuitology Club. All rights reserved.
         </div>
     </section>
 
