@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Project Showcase | Circuitology</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://img.icons8.com/color/48/000000/electronics.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Custom Properties / Design Tokens */
+        :root {
+            --bg-darker: #05050a;
+            --bg-dark: #0a0b10;
+            --bg-card: rgba(16, 18, 30, 0.65);
+            --bg-card-hover: rgba(22, 25, 45, 0.85);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-color-glow: rgba(0, 242, 254, 0.3);
+            
+            --neon-cyan: #00f2fe;
+            --neon-blue: #4facfe;
+            --neon-purple: #9d4edd;
+            --neon-pink: #f72585;
+            --neon-amber: #ff7b00;
+            
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-glow: #ffffff;
+            
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --transition-speed: 0.3s;
+            --ease-custom: cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-darker);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding-top: 100px;
+        }
+
+        /* Ambient Glow Highlights */
+        .ambient-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, rgba(157, 78, 221, 0.06) 50%, transparent 100%);
+            top: 10%;
+            left: -100px;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(50px);
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.08) 0%, rgba(247, 37, 133, 0.04) 60%, transparent 100%);
+            bottom: 10%;
+            right: -200px;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+        }
+
+        /* Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(5, 5, 10, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 10px;
+        }
+
+        .logo-area img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.5));
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color var(--transition-speed) ease;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .nav-item a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .nav-item a:hover::after {
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 4px;
+            transition: all 0.3s var(--ease-custom);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-outline {
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            background: transparent;
+            box-shadow: inset 0 0 0 0 rgba(0, 242, 254, 0.2);
+        }
+
+        .btn-outline:hover {
+            color: #000;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan);
+            font-weight: 700;
+        }
+
+        .btn-glow {
+            color: #fff;
+            background: linear-gradient(135deg, var(--neon-purple) 0%, var(--neon-blue) 100%);
+            border: none;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Showcase Layout */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-header {
+            max-width: 700px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text-glow);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 10%, #e2e8f0 50%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            margin: 15px auto 0;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* Glassmorphic Cyber Cards */
+        .cyber-project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.4s var(--ease-custom);
+            position: relative;
+        }
+
+        .cyber-project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.03), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .cyber-project-card:hover {
+            transform: translateY(-8px);
+            background: var(--bg-card-hover);
+            border-color: var(--border-color-glow);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 242, 254, 0.15);
+        }
+
+        .cyber-project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-img-container {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+            background: #000;
+            position: relative;
+        }
+
+        .project-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: transform 0.5s ease, opacity 0.3s ease;
+        }
+
+        .cyber-project-card:hover .project-img-container img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .card-details {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-glow);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Modals Cyber Design */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 10, 0.8);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-wrapper {
+            background: #0b0c16;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 30px rgba(0, 242, 254, 0.15);
+            width: 100%;
+            max-width: 650px;
+            border-radius: 8px;
+            padding: 40px 30px;
+            position: relative;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s var(--ease-custom);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal.active .modal-wrapper {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--neon-pink);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-left: 3px solid var(--neon-cyan);
+            padding-left: 12px;
+        }
+
+        .modal-section-title {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0 8px;
+        }
+
+        .modal-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        img.diagram-preview {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px 30px;
+            margin-top: 100px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #64748b;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--neon-cyan);
+        }
+
+        /* Hamburger Menu Trigger */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive Design Rules */
+        @media (max-width: 991px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 260px;
+                height: calc(100vh - 80px);
+                background: #07080d;
+                border-left: 1px solid var(--border-color);
+                flex-direction: column;
+                padding: 40px 30px;
+                align-items: flex-start;
+                transition: right 0.4s var(--ease-custom);
+                z-index: 999;
+                gap: 25px;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- Navigation Header -->
+    <header id="mainHeader">
+        <div class="nav-container">
+            <a href="index.html#home" class="logo-area">
+                <img src="logo.png" alt="Circuitology Club Logo">
+                <span class="logo-text">Circuitology</span>
+            </a>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html#home">HOME</a></li>
+                <li class="nav-item"><a href="index.html#about">ABOUT</a></li>
+                <li class="nav-item"><a href="event.html">EVENTS</a></li>
+                <li class="nav-item"><a href="project8.html">PROJECTS</a></li>
+                <li class="nav-item"><a href="index.html#contact">CONTACT</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Showcase Container -->
+    <main class="section-container">
+        <div class="section-header">
+            <span class="section-subtitle">Showcase & Schematics</span>
+            <h1 class="section-title">Club Project Showcase</h1>
+        </div>
+
+        <div class="grid-3" id="projectCards">
+            <!-- Project Cards are dynamically injected here -->
+        </div>
+    </main>
+
+    <!-- Details Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-wrapper">
+            <span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span>
+            <h3 class="modal-title" id="modalTitle">Project Title</h3>
+            
+            <div class="modal-section-title">Project Overview</div>
+            <p class="modal-text" id="modalDesc">Detailed description of the project.</p>
+            
+            <div class="modal-section-title">Working Flow</div>
+            <p class="modal-text" id="modalFlow">Step by step operational current flow.</p>
+            
+            <div class="modal-section-title">System Schematic / Reference Diagram</div>
+            <img id="modalImage" class="diagram-preview" src="" alt="Project Schematic" />
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Circuitology Club. All rights reserved.</p>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/circuitology_club?igsh=Mmt6YTA2d3BsOG9r" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/circuitology-club/" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.youtube.com/@ICTMarwadiUniversity" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Projects JSON Database
+        const projects = [
+            {
+                title: "Smart Blind Stick",
+                summary: "A mobility aid using Arduino Nano and an ultrasonic sensor. Helps detect obstacles and alerts via buzzer.",
+                description: "This smart blind stick project is designed to help visually impaired people navigate safely. It uses an ultrasonic sensor to measure the distance to nearby obstacles. If an object is detected within a certain range, a buzzer is triggered to alert the user. The device is portable and can be powered using a small battery.",
+                flow: "The ultrasonic sensor constantly measures distance. If an obstacle is detected within 1 meter, the Arduino triggers the buzzer.",
+                image: "./ProjecImage/blind_stick.jpg"
+            },
+            {
+                title: "Soil Moisture Sensor",
+                summary: "Monitors soil moisture using Arduino UNO and a capacitive sensor. Useful for smart irrigation systems.",
+                description: "This project reads the soil moisture level using a capacitive moisture sensor and displays it using LEDs. When the moisture is low, the system can be configured to trigger a water pump. It is ideal for automated plant watering systems or garden monitoring setups.",
+                flow: "Arduino reads analog moisture value → Compares with threshold → Lights up LED or triggers pump.",
+                image: "./ProjecImage/soil_moisture.jpg"
+            },
+            {
+                title: "ST7789 Display with Arduino",
+                summary: "An IPS TFT display interface using Arduino Nano and ST7789 module. Used to display sensor data and graphics.",
+                description: "This project connects a 1.3-inch ST7789 display to Arduino Nano over SPI. It shows sensor readings or messages in color using the TFT_eSPI library. Great for compact display applications like weather monitors or dashboards.",
+                flow: "Arduino communicates with ST7789 via SPI → Sends text/sensor data → Display renders information.",
+                image: "ProjecImage/st7789_display.jpg"
+            },
+            {
+                title: "Traffic Light Using Arduino",
+                summary: "A simple simulation of traffic signal control using LEDs and Arduino. Great beginner project.",
+                description: "This project simulates a traffic light system using Arduino. Three LEDs (red, yellow, green) light up sequentially using delay functions to mimic real-world signal behavior. Helps understand control flow and timing logic.",
+                flow: "Cycle through green → yellow → red → delay each state for fixed duration using Arduino delay().",
+                image: "ProjecImage/traffic_light.jpg"
+            },
+            {
+                title: "LED Blinking with ATmega32",
+                summary: "A basic embedded project using AVR ATmega32 to blink LEDs connected to PORTD.",
+                description: "This project demonstrates the most fundamental microcontroller task: blinking an LED. Using AVR-GCC, the program toggles a pin on PORTD high and low with a delay, causing the LED to blink.",
+                flow: "Set PORTD pin as output → Toggle HIGH/LOW → Insert delay → Repeat in infinite loop.",
+                image: "ProjecImage/led_blinking.jpg"
+            },
+            {
+                title: "LCD with ATmega32",
+                summary: "Interface a 16x2 LCD with ATmega32 to display characters and sensor data using C programming.",
+                description: "The project uses the ATmega32 AVR microcontroller to drive a standard 16x2 LCD. Characters and messages are displayed by sending commands/data to the LCD using GPIO pins. Useful for digital displays in embedded systems.",
+                flow: "Initialize LCD → Send command/data from ATmega32 → LCD displays output.",
+                image: "ProjecImage/lcd_atmega32.jpg"
+            },
+            {
+                title: "Keypad with ATmega32",
+                summary: "Read inputs from a 4x4 matrix keypad using AVR microcontroller. Display key presses on LCD.",
+                description: "This project interfaces a 4x4 matrix keypad with ATmega32. It scans the rows and columns to detect which button was pressed, then shows the value on a connected 16x2 LCD screen.",
+                flow: "Set keypad rows as outputs, columns as inputs → Detect LOW signals on column lines → Map pressed key.",
+                image: "ProjecImage/keypad_atmega32.jpg"
+            },
+            {
+                title: "Solar Energy System",
+                summary: "A conceptual overview of solar energy conversion systems. Includes solar panel, battery, inverter.",
+                description: "This system consists of solar panels converting sunlight into electricity. A charge controller regulates power to charge a battery, and an inverter converts DC to AC. Common in homes and off-grid setups.",
+                flow: "Sunlight → Solar panel (DC output) → Charge controller → Battery → Inverter → AC Output.",
+                image: "ProjecImage/solar_system.jpg"
+            },
+            {
+                title: "Digital Thermometer with LM35",
+                summary: "Reads temperature using LM35 and displays it on an LCD using ATmega32 microcontroller.",
+                description: "This digital thermometer project reads analog voltage from LM35, converts it into temperature data using ATmega32's ADC, and displays it on an LCD. It's simple yet effective for lab or hobby monitoring.",
+                flow: "LM35 outputs analog voltage → ATmega32 ADC reads it → Converts to °C → Sends to LCD.",
+                image: "ProjecImage/thermometer_lm35.jpg"
+            }
+        ];
+
+        // Dynamically populate cards
+        const container = document.getElementById("projectCards");
+        projects.forEach((p, i) => {
+            const card = document.createElement("div");
+            card.className = "cyber-project-card";
+            card.innerHTML = `
+                <div class="project-img-container">
+                    <img src="${p.image}" alt="${p.title}">
+                </div>
+                <div class="card-details">
+                    <div>
+                        <h3 class="card-title">${p.title}</h3>
+                        <p class="card-body">${p.summary}</p>
+                    </div>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="openModal(${i})">Analyze Schematic</button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // Hamburger Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Modal Controls
+        function openModal(index) {
+            const p = projects[index];
+            document.getElementById("modalTitle").innerText = p.title;
+            document.getElementById("modalDesc").innerText = p.description;
+            document.getElementById("modalFlow").innerText = p.flow;
+            document.getElementById("modalImage").src = p.image;
+            document.getElementById("modal").classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById("modal").classList.remove('active');
+        }
+
+        // Close on backdrop click
+        window.onclick = function (e) {
+            if (e.target.classList.contains('modal')) closeModal();
+        };
+    </script>
+</body>
+</html>

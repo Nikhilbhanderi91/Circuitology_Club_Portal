@@ -3,794 +3,1203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circuitology Club ICT MU</title>
-    <!-- Favicon (replace with your actual logo) -->
+    <title>Circuitology Club | ICT MU</title>
+    <!-- Favicon -->
     <link rel="icon" href="https://img.icons8.com/color/48/000000/electronics.png" type="image/png">
-    <!-- Fonts -->
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* CSS Variables */
+        /* CSS Custom Properties / Design Tokens */
         :root {
-            --primary-color: #4a6bff;
-            --secondary-color: #ff6b4a;
-            --dark-color: #1a237e;
-            --light-color: #e8eaf6;
-            --accent-color: #00c853;
+            --bg-darker: #05050a;
+            --bg-dark: #0a0b10;
+            --bg-card: rgba(16, 18, 30, 0.65);
+            --bg-card-hover: rgba(22, 25, 45, 0.85);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-color-glow: rgba(0, 242, 254, 0.3);
+            
+            --neon-cyan: #00f2fe;
+            --neon-blue: #4facfe;
+            --neon-purple: #9d4edd;
+            --neon-pink: #f72585;
+            --neon-amber: #ff7b00;
+            
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-glow: #ffffff;
+            
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --transition-speed: 0.3s;
+            --ease-custom: cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        
-        /* Base Styles */
+
+        /* Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
             box-sizing: border-box;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Header Section */
-        .header {
-            min-height: 100vh;
-            width: 100%;
-            background-color: transparent;
-            background-image: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7)), 
-                            url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            padding: 20px;
+        body {
+            background-color: var(--bg-darker);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
-        
-        nav {
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-darker);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* Ambient Glow Highlights */
+        .ambient-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, rgba(157, 78, 221, 0.08) 50%, transparent 100%);
+            top: 20%;
+            left: -100px;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(40px);
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.1) 0%, rgba(247, 37, 133, 0.05) 60%, transparent 100%);
+            top: 60%;
+            right: -200px;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+        }
+
+        /* Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(5, 5, 10, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        header.scrolled {
+            background: rgba(5, 5, 10, 0.9);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 242, 254, 0.1);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
             display: flex;
-            padding: 2% 6%;
             justify-content: space-between;
             align-items: center;
-            background-color: transparent;
+            padding: 15px 30px;
         }
-        
-        nav img {
-            width: 150px;
-            height: auto;
-        }
-        
-        .nav-links {
-            flex: 1;
-            text-align: right;
-        }
-        
-        .nav-links ul li {
-            list-style: none;
-            display: inline-block;
-            padding: 8px 12px;
-            position: relative;
-        }
-        
-        .nav-links ul li a {
-            color: #fff;
+
+        .logo-area {
+            display: flex;
+            align-items: center;
             text-decoration: none;
-            font-size: 13px;
-            transition: 0.3s;
+            gap: 10px;
         }
-        
-        .nav-links ul li a:hover {
-            color: var(--secondary-color);
+
+        .logo-area img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.5));
+            transition: transform 0.5s ease;
         }
-        
-        .nav-links ul li::after {
+
+        .logo-area:hover img {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color var(--transition-speed) ease;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-item a::after {
             content: '';
-            width: 0%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
             height: 2px;
-            background: var(--secondary-color);
-            display: block;
-            margin: auto;
-            transition: 0.5s;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--neon-cyan);
         }
-        
-        .nav-links ul li:hover::after {
+
+        .nav-item a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .nav-item a:hover::after {
             width: 100%;
         }
-        
-        /* Buttons */
-        .hero-btn {
-            display: inline-block;
-            text-decoration: none;
-            color: #fff;
-            border: 1px solid #fff;
-            padding: 12px 24px;
-            font-size: 13px;
-            background: transparent;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 50px;
-        }
-        
-        .hero-btn:hover {
-            border: 1px solid var(--secondary-color);
-            background: var(--secondary-color);
-            color: #000;
-        }
-        
-        /* Text Box */
-        .text-box {
-            width: 90%;
-            color: #fff;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        
-        .text-box h1 {
-            font-size: 62px;
-            margin-bottom: 20px;
-            animation: fadeInDown 1s ease;
-            
-        }
-        
-        .text-box p {
-            margin: 10px 0 40px;
-            font-size: 16px;
-            animation: fadeInUp 1s ease;
-        }
-        
-        /* Course Section */
-        .course {
-            width: 80%;
-            margin: auto;
-            text-align: center;
-            padding-top: 100px;
-        }
-        
-        .course h1 {
-            font-size: 36px;
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 20px;
-        }
-        
-        .course p {
-            color: #777;
-            font-size: 14px;
-            font-weight: 300;
-            line-height: 22px;
-            padding: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .row {
+
+        .nav-buttons {
             display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
         }
-        
-        .course-col {
-            flex-basis: 31%;
-            background: #fff;
-            border-radius: 10px;
-            margin-bottom: 5%;
-            padding: 20px 12px;
-            box-sizing: border-box;
-            transition: 0.5s;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        
-        .course-col:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .course-col h3 {
-            text-align: center;
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
             font-weight: 600;
-            margin: 10px 0;
-            color: var(--primary-color);
-        }
-        
-        .course-col i {
-            font-size: 24px;
-            color: var(--accent-color);
-            margin-right: 10px;
-        }
-        
-        /* Campus Section */
-        .campus {
-            width: 80%;
-            margin: auto;
-            text-align: center;
-            padding-top: 50px;
-        }
-        
-        .campus h1 {
-            font-size: 36px;
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 20px;
-        }
-        
-        .campus-col {
-            flex-basis: 32%;
-            border-radius: 10px;
-            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 4px;
+            transition: all 0.3s var(--ease-custom);
+            cursor: pointer;
             position: relative;
             overflow: hidden;
         }
-        
-        .campus-col img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s;
-        }
-        
-        .campus-col:hover img {
-            transform: scale(1.1);
-        }
-        
-        .layer {
+
+        .btn-outline {
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
             background: transparent;
-            height: 100%;
+            box-shadow: inset 0 0 0 0 rgba(0, 242, 254, 0.2);
+        }
+
+        .btn-outline:hover {
+            color: #000;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan);
+            font-weight: 700;
+        }
+
+        .btn-glow {
+            color: #fff;
+            background: linear-gradient(135deg, var(--neon-purple) 0%, var(--neon-blue) 100%);
+            border: none;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
             width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transition: 0.5s;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            overflow: hidden;
+            padding-top: 80px;
         }
-        
-        .layer:hover {
-            background: rgba(74, 107, 255, 0.7);
-        }
-        
-        .layer h3 {
-            width: 100%;
-            font-weight: 500;
-            color: #fff;
-            font-size: 26px;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+
+        .hero-canvas {
             position: absolute;
-            opacity: 0;
-            transition: 0.5s;
-            padding: 20px;
-            background: rgba(0,0,0,0.7);
-        }
-        
-        .layer:hover h3 {
-            opacity: 1;
-            bottom: 50%;
-        }
-        
-        /* Facilities Section */
-        .facilities {
-            width: 80%;
-            margin: auto;
-            text-align: center;
-            padding-top: 50px;
-        }
-        
-        .facilities-col {
-            flex-basis: 31%;
-            border-radius: 10px;
-            margin-bottom: 5%;
-            text-align: left;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            transition: 0.5s;
-        }
-        
-        .facilities-col:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .facilities-col img {
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.45;
+            pointer-events: none;
         }
-        
-        .facilities-col h3 {
-            margin-top: 16px;
-            margin-bottom: 15px;
-            text-align: left;
-            color: var(--primary-color);
-        }
-        
-        /* Testimonials */
-        .testimonials {
-            width: 80%;
-            margin: auto;
-            padding-top: 50px;
-            text-align: center;
-        }
-        
-        .testimonial-col {
-            flex-basis: 48%;
-            border-radius: 10px;
-            margin-bottom: 5%;
-            text-align: left;
-            background: #fff;
-            padding: 25px;
-            cursor: pointer;
-            display: flex;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            transition: 0.5s;
-        }
-        
-        .testimonial-col:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .testimonial-col img {
-            height: 120px;
-            width: 120px;
-            margin-right: 30px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-        
-        .testimonial-col h3 {
-            margin-top: 10px;
-            color: var(--primary-color);
-        }
-        
-        .testimonial-col p {
-            padding: 0;
-            color: #555;
-            font-size: 14px;
-            margin: 10px 0;
-        }
-        
-        .testimonial-col .rating {
-            color: var(--secondary-color);
-        }
-        
-        /* CTA Section */
-        .cta {
-            margin: 100px auto;
-            width: 80%;
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                            url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-            background-position: center;
-            background-size: cover;
-            border-radius: 10px;
-            text-align: center;
-            padding: 100px 0;
-        }
-        
-        .cta h1 {
-            color: #fff;
-            margin-bottom: 40px;
-            padding: 0;
-            font-size: 36px;
-            animation: pulse 2s infinite;
-        }
-        
-        .cta p {
-            color: #fff;
-            margin-bottom: 40px;
-            font-size: 16px;
-        }
-        
-        /* Footer */
-        .footer {
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            text-align: center;
-            padding: 30px 0;
-            background-color: var(--dark-color);
-            color: #fff;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, var(--bg-darker) 90%),
+                        linear-gradient(to bottom, rgba(5,5,10,0.1), var(--bg-darker) 98%);
+            z-index: 2;
+            pointer-events: none;
         }
-        
-        .footer h4 {
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 900px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .cyber-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 50px;
+            padding: 6px 16px;
             margin-bottom: 25px;
-            margin-top: 20px;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
             font-weight: 600;
-            font-size: 24px;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
+            animation: pulse-border 2.5s infinite;
         }
-        
-        .footer p {
-            margin-bottom: 20px;
-            font-size: 14px;
-            line-height: 1.6;
+
+        .cyber-badge i {
+            animation: rotate-cog 3s linear infinite;
         }
-        
-        .icons {
-            margin: 20px 0;
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 4.2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff 10%, #e2e8f0 50%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.1));
         }
-        
-        .icons a {
-            color: #fff;
-            margin: 0 10px;
-            font-size: 24px;
-            transition: 0.3s;
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            line-height: 1.8;
         }
-        
-        .icons a:hover {
-            color: var(--secondary-color);
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Sections General */
+        section {
+            position: relative;
+            padding: 100px 20px;
+            z-index: 10;
+        }
+
+        .section-header {
+            max-width: 700px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--neon-purple);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-glow);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            margin: 15px auto 0;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .section-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Container Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Grid System */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        /* Glassmorphic Cyber Cards */
+        .cyber-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 35px 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-custom);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.05), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-8px);
+            background: var(--bg-card-hover);
+            border-color: var(--border-color-glow);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.15);
+        }
+
+        .cyber-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--neon-cyan);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.05);
+        }
+
+        .cyber-card:hover .card-icon {
+            color: #000;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan);
+            border-color: var(--neon-cyan);
+            transform: scale(1.05) rotate(-5deg);
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-glow);
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* Activity / Events Section Styles */
+        .event-card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 380px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s var(--ease-custom);
+            background: #000;
+        }
+
+        .event-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.65;
+            transition: transform 0.6s var(--ease-custom), opacity 0.4s ease;
+        }
+
+        .event-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(5, 5, 10, 0.95) 15%, rgba(5, 5, 10, 0.4) 60%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            transition: all 0.4s var(--ease-custom);
+        }
+
+        .event-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 242, 254, 0.2);
             transform: translateY(-5px);
         }
-        
-        .copy {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #aaa;
+
+        .event-card:hover img {
+            transform: scale(1.08);
+            opacity: 0.75;
         }
-        
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .event-title {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
         }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .event-card:hover .event-title {
+            color: var(--neon-cyan);
         }
-        
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
+
+        .event-tag {
+            align-self: flex-start;
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            background: var(--neon-purple);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            box-shadow: 0 0 10px rgba(157, 78, 221, 0.4);
         }
-        
-        /* Interactive Elements */
-        .floating-btn {
+
+        /* Project Cards */
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-custom);
+            position: relative;
+        }
+
+        .project-img-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-img-wrapper img {
+            transform: scale(1.06);
+        }
+
+        .project-info {
+            padding: 25px;
+        }
+
+        .project-card-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-glow);
+            margin-bottom: 10px;
+        }
+
+        .project-card-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .project-card:hover {
+            border-color: var(--border-color-glow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0, 242, 254, 0.1);
+            transform: translateY(-5px);
+        }
+
+        /* Skills / Development Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .skill-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            gap: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            border-color: rgba(157, 78, 221, 0.4);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 15px rgba(157, 78, 221, 0.15);
+            background: var(--bg-card-hover);
+        }
+
+        .skill-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .skill-info {
+            flex: 1;
+        }
+
+        .skill-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-glow);
+            margin-bottom: 10px;
+        }
+
+        .skill-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .rating-stars {
+            color: var(--neon-amber);
+            font-size: 0.85rem;
+            display: flex;
+            gap: 4px;
+        }
+
+        /* Call To Action */
+        .cta-section {
+            position: relative;
+            padding: 120px 20px;
+            overflow: hidden;
+        }
+
+        .cta-box {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(10, 11, 16, 0.9) 0%, rgba(20, 10, 40, 0.85) 100%);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 12px;
+            padding: 70px 40px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 35px rgba(157, 78, 221, 0.15);
+        }
+
+        .cta-box h2 {
+            font-family: var(--font-display);
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .cta-box p {
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 35px;
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border-color);
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            max-width: 400px;
+        }
+
+        .footer-info i {
+            color: var(--neon-cyan);
+            margin-right: 8px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: #000;
+            background: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan);
+            transform: translateY(-4px);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        /* Floating Contact Action button */
+        .floating-action {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 60px;
-            height: 60px;
-            background: var(--primary-color);
-            color: #fff;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            color: #000;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.4);
             cursor: pointer;
-            z-index: 100;
-            transition: all 0.3s;
+            z-index: 999;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
-        .floating-btn:hover {
-            background: var(--secondary-color);
-            transform: translateY(-5px) scale(1.1);
+
+        .floating-action:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 242, 254, 0.6);
         }
-        
-        /* Mobile Menu */
-        .fa-bars, .fa-times {
-            color: #fff;
-            font-size: 22px;
-            cursor: pointer;
-            display: none;
-        }
-        
-        /* Responsive Design */
-        @media(max-width: 700px) {
-            .text-box h1 {
-                font-size: 32px;
-            }
-            
-            .nav-links ul li {
-                display: block;
-            }
-            
-            .nav-links {
-                position: fixed;
-                background: var(--dark-color);
-                height: 100vh;
-                width: 200px;
-                top: 0;
-                right: -200px;
-                text-align: left;
-                z-index: 2;
-                transition: 0.5s;
-            }
-            
-            .fa-bars, .fa-times {
-                display: block;
-                margin: 10px;
-                font-size: 22px;
-            }
-            
-            .course-col, .facilities-col, .testimonial-col {
-                flex-basis: 100%;
-            }
-            
-            .testimonial-col {
-                flex-direction: column;
-            }
-            
-            .testimonial-col img {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            
-            .cta h1 {
-                font-size: 24px;
-            }
-        }
-        
-        /* Project Gallery */
-        .project-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        
-        .project-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-        
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .project-card:hover img {
-            transform: scale(1.1);
-        }
-        
-        .project-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(26, 35, 126, 0.9);
-            color: white;
-            padding: 20px;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .project-card:hover .project-info {
-            transform: translateY(0);
-        }
-        
-        /* Modal Styles */
+
+        /* Modals Cyber Design */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
+            z-index: 10000;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            animation: fadeIn 0.3s;
+            background: rgba(5, 5, 10, 0.8);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 500px;
+
+        .modal-wrapper {
+            background: #0b0c16;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 30px rgba(0, 242, 254, 0.15);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 8px;
+            padding: 40px 30px;
             position: relative;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s var(--ease-custom);
         }
-        
-        .close {
-            color: #aaa;
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal.active .modal-wrapper {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
             position: absolute;
-            top: 15px;
-            right: 25px;
-            font-size: 28px;
-            font-weight: bold;
+            top: 20px;
+            right: 20px;
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--neon-pink);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            border-left: 3px solid var(--neon-cyan);
+            padding-left: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            padding: 12px 16px;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            background: rgba(0, 242, 254, 0.02);
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.15);
+        }
+
+        .modal-footer-text {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+        }
+
+        .modal-footer-text a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .modal-footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 10px rgba(0, 242, 254, 0.15); border-color: rgba(0, 242, 254, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); border-color: rgba(0, 242, 254, 0.6); }
+            100% { box-shadow: 0 0 10px rgba(0, 242, 254, 0.15); border-color: rgba(0, 242, 254, 0.3); }
+        }
+
+        @keyframes rotate-cog {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Hamburger & Menu Trigger */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
             cursor: pointer;
         }
-        
-        .close:hover {
-            color: var(--secondary-color);
+
+        /* Responsive Design Rules */
+        @media (max-width: 991px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 3.2rem;
+            }
         }
-        
-        .modal h2 {
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-        
-        .modal input, .modal select, .modal textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .modal textarea {
-            resize: vertical;
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 260px;
+                height: calc(100vh - 80px);
+                background: #07080d;
+                border-left: 1px solid var(--border-color);
+                flex-direction: column;
+                padding: 40px 30px;
+                align-items: flex-start;
+                transition: right 0.4s var(--ease-custom);
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 20px;
+                gap: 15px;
+            }
+
+            .nav-buttons .btn {
+                width: 100%;
+            }
+
+            .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .cta-box h2 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Floating Contact Button -->
-    <div class="floating-btn" onclick="openContactForm()">
-        <i class="fas fa-comment-dots"></i>
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- Navigation Header -->
+    <header id="mainHeader">
+        <div class="nav-container">
+            <a href="#home" class="logo-area">
+                <img src="logo1.png" alt="Circuitology Club Logo">
+                <span class="logo-text">Circuitology Club</span>
+            </a>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="#home">HOME</a></li>
+                <li class="nav-item"><a href="#about">ABOUT</a></li>
+                <li class="nav-item"><a href="event.html">EVENTS</a></li>
+                <li class="nav-item"><a href="project.html">PROJECTS</a></li>
+                <li class="nav-item"><a href="#contact">CONTACT</a></li>
+                <li class="nav-buttons">
+                    <a href="form.php" class="btn btn-outline">Login</a>
+                    <a href="logout.php" class="btn btn-glow">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Floating Quick Contact Button -->
+    <div class="floating-action" onclick="openModal('contactModal')">
+        <i class="fas fa-envelope-open-text"></i>
     </div>
 
-    <!-- Header Section -->
-    <section class="header" id="home">
-        <nav>
-            <!-- Replace this with your actual logo path -->
-            <a href="#home"><img src="logo.png" alt="Circuitology Club Logo" width="150" style="height:100px;"></a>
-            <div class="nav-links" id="navLinks">
-                <i class="fa fa-times" onclick="hideMenu()"></i>
-                <ul>
-                    <li><a href="#home">HOME</a></li>
-                    <li><a href="#about">ABOUT</a></li>
-                    <li><a href="event.html">EVENTS</a></li>
-                    <li><a href="./project8.html">PROJECTS</a></li>
-                    <li><a href="#contact">CONTACT</a></li>
-                    <a href="form.php" class="hero-btn" style="margin-right: 10px;">Login</a>
-                    <a href="logout.php" class="hero-btn" style="margin-right: 10px;">Logout</a>
-                </ul>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <canvas class="hero-canvas" id="circuit-canvas"></canvas>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <div class="cyber-badge">
+                <i class="fas fa-microchip"></i> Next-Gen Hardware Community
             </div>
-            <i class="fa fa-bars" onclick="showMenu()"></i>
-        </nav>
-
-        <div class="text-box">
-            <h1>Circuitology Club</h1>
-            <p>Where circuits come to life! Join our hardware enthusiasts community to explore electronics, embedded systems, IoT, and cutting-edge hardware technologies through hands-on projects and collaborative learning.</p>
-            <a href="./project8.html" class="hero-btn">Join Our Next Workshop</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="course" id="about">
-        <h1>Club Mission</h1>
-        <p>Empowering students to become hardware innovators through:</p>
-
-        <div class="row">
-            <div class="course-col">
-                <h3><i class="fas fa-microchip"></i> Hands-on Learning</h3>
-                We provide practical experience with electronic components, circuit design, PCB fabrication, and embedded systems development.
-            </div>
-
-            <div class="course-col">
-                <h3><i class="fas fa-users"></i> Collaborative Projects</h3>
-                Work in teams to build real-world hardware solutions, from simple circuits to complex IoT systems and robotics.
-            </div>
-
-            <div class="course-col">
-                <h3><i class="fas fa-flask"></i> Innovation Lab</h3>
-                Access to our well-equipped lab with oscilloscopes, 3D printers, soldering stations, and development kits.
+            <h1>Where Circuits<br>Come To Life</h1>
+            <p>Join ICT Marwadi University's premier hardware innovation hub. We build, code, solder, and prototype tomorrow's technology, from IoT nodes to embedded controller systems.</p>
+            <div class="hero-actions">
+                <a href="project.html" class="btn btn-glow" style="padding: 14px 28px;">Explore Workshops</a>
+                <a href="#about" class="btn btn-outline" style="padding: 14px 28px;">Our Mission</a>
             </div>
         </div>
     </section>
 
-    <!-- Events Section -->
-    <section class="campus" id="events">
-        <h1>Club Activities & Events</h1>
-        <p>Engage in our exciting hardware-focused programs throughout the year.</p>
+    <!-- About / Club Mission Section -->
+    <section class="container" id="about">
+        <div class="section-header">
+            <span class="section-subtitle">Core Pillars</span>
+            <h2 class="section-title">Club Mission</h2>
+            <p class="section-description">Empelling future tech leaders through hands-on fabrication, embedded expertise, and real-world system modeling.</p>
+        </div>
 
-        <div class="row">
-            <div class="campus-col">
-                <img src="https://images.unsplash.com/photo-1625014618427-fbc980b974f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80" alt="Circuit Design Workshop">
-                <div class="layer">
-                    <h3>Circuit Design Fundamentals</h3>
+        <div class="grid-3">
+            <div class="cyber-card">
+                <div>
+                    <div class="card-icon"><i class="fas fa-tools"></i></div>
+                    <h3 class="card-title">Hands-on Learning</h3>
+                    <p class="card-body">We provide practical experience with electronic components, circuit design, PCB fabrication, and high-precision testing equipment.</p>
                 </div>
             </div>
-            <div class="campus-col">
-                <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Arduino Workshop">
-                <div class="layer">
-                    <h3>Arduino/Raspberry Pi Workshops</h3>
+
+            <div class="cyber-card">
+                <div>
+                    <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
+                    <h3 class="card-title">Collaborative Work</h3>
+                    <p class="card-body">Work in interdisciplinary student teams to solve industrial problems, build robots, and develop smart edge intelligence devices.</p>
                 </div>
             </div>
-            <div class="campus-col">
-                <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Soldering Competition">
-                <div class="layer">
-                    <h3>Annual Soldering Competition</h3>
+
+            <div class="cyber-card">
+                <div>
+                    <div class="card-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3 class="card-title">Innovation Lab</h3>
+                    <p class="card-body">Access state-of-the-art diagnostic gear, rapid 3D printers, precision soldering rigs, and complete hardware dev kits.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section class="facilities" id="projects">
-        <h1>Featured Projects</h1>
-        <p>See what our members have been building in our innovation lab</p>
+    <!-- Activities & Events Section -->
+    <section class="container" id="events">
+        <div class="section-header">
+            <span class="section-subtitle">Calendar & Training</span>
+            <h2 class="section-title">Events & Workshops</h2>
+            <p class="section-description">Catch up with our flagship training events, bootcamps, and hackathons planned for this academic year.</p>
+        </div>
 
-        <div class="project-gallery">
-            <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Smart Home System">
-                <div class="project-info">
-                    <h3>IoT Smart Home System</h3>
-                    <p>A complete home automation system with custom PCB design and mobile app integration.</p>
-                    <button class="hero-btn" style="margin-top: 10px;">View Details</button>
+        <div class="grid-3">
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1625014618427-fbc980b974f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Circuit Design">
+                <div class="event-overlay">
+                    <span class="event-tag">Fundamentals</span>
+                    <h3 class="event-title">Circuit Design Principles</h3>
                 </div>
             </div>
-            
-            <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Health Monitoring Device">
-                <div class="project-info">
-                    <h3>Wearable Health Monitor</h3>
-                    <p>Compact wearable device that tracks vital signs and alerts emergency contacts.</p>
-                    <button class="hero-btn" style="margin-top: 10px;">View Details</button>
+
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Arduino Workshop">
+                <div class="event-overlay">
+                    <span class="event-tag">Development</span>
+                    <h3 class="event-title">Arduino & Pi Coding</h3>
                 </div>
             </div>
-            
+
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Soldering Competition">
+                <div class="event-overlay">
+                    <span class="event-tag">Competition</span>
+                    <h3 class="event-title">Annual Soldering Arena</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section class="container" id="projects">
+        <div class="section-header">
+            <span class="section-subtitle">Innovation Lab Showcase</span>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-description">A glimpse into systems engineered, programmed, and built by our members.</p>
+        </div>
+
+        <div class="grid-3">
             <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Agricultural Robot">
+                <div class="project-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Smart Home">
+                </div>
                 <div class="project-info">
-                    <h3>Autonomous Agricultural Robot</h3>
-                    <p>Solar-powered robot that can identify weeds and spray them with precision.</p>
-                    <button class="hero-btn" style="margin-top: 10px;">View Details</button>
+                    <h3 class="project-card-title">IoT Smart Home Hub</h3>
+                    <p class="project-card-desc">Custom PCB layout, microcontroller control, and real-time cloud dashboard via secure WebSockets.</p>
+                    <a href="project.html" class="btn btn-outline" style="width: 100%;">View Engineering Details</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wearable Device">
+                </div>
+                <div class="project-info">
+                    <h3 class="project-card-title">Wearable Bio-Monitor</h3>
+                    <p class="project-card-desc">Ultra-low-power health tracker utilizing photoplethysmography sensors to monitor vitals securely.</p>
+                    <a href="project.html" class="btn btn-outline" style="width: 100%;">View Engineering Details</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Agri-robot">
+                </div>
+                <div class="project-info">
+                    <h3 class="project-card-title">Agri-Rover Autonomous</h3>
+                    <p class="project-card-desc">Autonomous solar rover equipped with optical sensors, GPS mapping, and target spray systems.</p>
+                    <a href="project.html" class="btn btn-outline" style="width: 100%;">View Engineering Details</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Skills Section -->
-    <section class="testimonials">
-        <h1>Skills You'll Develop</h1>
-        <p>Our comprehensive program helps you master essential hardware engineering skills</p>
+    <section class="container">
+        <div class="section-header">
+            <span class="section-subtitle">Professional Development</span>
+            <h2 class="section-title">Skills You'll Master</h2>
+            <p class="section-description">Broaden your academic engineering knowledge with specialized, industry-relevant technical competencies.</p>
+        </div>
 
-        <div class="row">
-            <div class="testimonial-col">
-                <img src="https://images.pexels.com/photos/159220/printed-circuit-board-print-plate-via-macro-159220.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="PCB Design">
-                <div>
-                    <h3>PCB Design & Fabrication</h3>
-                    <p>Learn to design professional-grade printed circuit boards using industry-standard tools like Altium and KiCad, from schematic capture to final production.</p>
-                    <div class="rating">
+        <div class="skills-grid">
+            <div class="skill-item">
+                <img src="https://images.pexels.com/photos/159220/printed-circuit-board-print-plate-via-macro-159220.jpeg?auto=compress&cs=tinysrgb&w=400" alt="PCB Design">
+                <div class="skill-info">
+                    <h3 class="skill-title">PCB Design & Auto-Routing</h3>
+                    <p class="skill-desc">Schematic creation, component placement, multi-layer routing, impedance matching, and manufacturing export inside Altium & KiCad.</p>
+                    <div class="rating-stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -799,12 +1208,13 @@
                     </div>
                 </div>
             </div>
-            <div class="testimonial-col">
-                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Embedded Systems">
-                <div>
-                    <h3>Embedded Systems Programming</h3>
-                    <p>Master microcontroller programming with C/C++, RTOS concepts, peripheral interfaces, and low-power design techniques.</p>
-                    <div class="rating">
+
+            <div class="skill-item">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Embedded Systems">
+                <div class="skill-info">
+                    <h3 class="skill-title">Firmware & Micro-controllers</h3>
+                    <p class="skill-desc">Deep-dive micro-programming (C/C++), real-time operating systems (RTOS), DMA operations, SPI/I2C, and ultra-low-power modes.</p>
+                    <div class="rating-stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -817,170 +1227,279 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta" id="contact">
-        <h1>Ready to Build the Future With Us?</h1>
-        <p>Whether you're a complete beginner or an experienced maker, we have opportunities for you to learn and grow.</p>
-        <a href="#register" class="hero-btn">Join Circuitology Club</a>
+    <section class="cta-section" id="contact">
+        <div class="cta-box">
+            <h2>Ready to Engineer the Future?</h2>
+            <p>Join Circuitology Club to gain practical laboratory experience, collaborate with enthusiastic peers, and showcase your hardware capabilities.</p>
+            <a href="form.php" class="btn btn-glow" style="padding: 15px 35px; font-size: 0.9rem;">Join Circuitology Club</a>
+        </div>
     </section>
 
     <!-- Footer -->
-    <section class="footer">
-        <h4>Circuitology Club</h4>
-        <p>
-            Department of Information communication Technology<br>
-            MA108,Main Building Mu campus<br>
-            Contact: circuitology@mu.edu | +91 9723265278
-        </p>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href="#home" class="logo-area">
+                    <img src="logo1.png" alt="Circuitology Logo">
+                    <span class="logo-text">Circuitology Club</span>
+                </a>
+            </div>
+            
+            <div class="footer-info">
+                <p><i class="fas fa-map-marker-alt"></i> Dept. of Information Communication Technology</p>
+                <p>MA108, Main Building, MU Campus</p>
+                <p><i class="fas fa-envelope"></i> circuitology@mu.edu | <i class="fas fa-phone-alt"></i> +91 9723265278</p>
+            </div>
 
-        <div class="icons">
-            <a href="https://www.instagram.com/circuitology_club?igsh=Mmt6YTA2d3BsOG9r" target="_blank">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com/company/circuitology-club/" target="_blank">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://www.youtube.com/@ICTMarwadiUniversity" target="_blank">
-                <i class="fab fa-youtube"></i>
-            </a>
-        </div>  
-
-        <div class="copy">
-            &copy; 2025 Circuitology Club. All rights reserved.
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/circuitology_club?igsh=Mmt6YTA2d3BsOG9r" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/circuitology-club/" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.youtube.com/@ICTMarwadiUniversity" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
         </div>
-    </section>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('loginModal')">&times;</span>
-            <h2>Member Login</h2>
-            <form>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit" class="hero-btn">Login</button>
-            </form>
-            <p>Don't have an account? <a href="#" onclick="switchToRegister()">Register here</a></p>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Circuitology Club. All rights reserved.</p>
+            <p>Designed with High-End Cyber aesthetics</p>
         </div>
-    </div>
-
-    <!-- Register Modal -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('registerModal')">&times;</span>
-            <h2>Register Now</h2>
-            <form>
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Confirm Password" required>
-                <select required>
-                    <option value="">Select Department</option>
-                    <option>Electronics</option>
-                    <option>Computer Science</option>
-                    <option>Electrical</option>
-                    <option>Mechanical</option>
-                    <option>Other</option>
-                </select>
-                <button type="submit" class="hero-btn">Register</button>
-            </form>
-            <p>Already have an account? <a href="#" onclick="switchToLogin()">Login here</a></p>
-        </div>
-    </div>
+    </footer>
 
     <!-- Contact Form Modal -->
     <div id="contactModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('contactModal')">&times;</span>
-            <h2>Contact Us</h2>
-            <form>
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" rows="5" required></textarea>
-                <button type="submit" class="hero-btn">Send Message</button>
+        <div class="modal-wrapper">
+            <span class="modal-close" onclick="closeModal('contactModal')"><i class="fas fa-times"></i></span>
+            <h2 class="modal-title">Get in Touch</h2>
+            <form action="form.php" method="POST">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="name@domain.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-input" rows="4" placeholder="How can we help you?" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-glow" style="width: 100%; padding: 12px;">Send Message</button>
             </form>
         </div>
     </div>
 
+    <!-- Script Section -->
     <script>
-        // Mobile Menu Toggle
-        var navLinks = document.getElementById("navLinks");
-        
-        function showMenu() {
-            navLinks.style.right = "0";
-        }
-        
-        function hideMenu() {
-            navLinks.style.right = "-200px";            
-        }
-        
-        
-        function logout() {
-            localStorage.removeItem("loggedIn");
-            alert("You have been logged out.");
-            window.location.href = "login.html";
-        }
-
-        // Modal Functions
-        function openLoginModal() {
-            document.getElementById('loginModal').style.display = 'block';
-        }
-        
-        function openRegisterModal() {
-            document.getElementById('registerModal').style.display = 'block';
-        }
-        
-        function openContactForm() {
-            document.getElementById('contactModal').style.display = 'block';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        
-        function switchToRegister() {
-            closeModal('loginModal');
-            openRegisterModal();
-        }
-        
-        function switchToLogin() {
-            closeModal('registerModal');
-            openLoginModal();
-        }
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                event.target.style.display = 'none';
+        // Header Scrolled Style
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
-        }
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        });
+
+        // Hamburger Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu on item click
+        document.querySelectorAll('.nav-item a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             });
         });
-        
-        // Animation on scroll
-        window.addEventListener('scroll', reveal);
-        
-        function reveal() {
-            var reveals = document.querySelectorAll('.course-col, .campus-col, .facilities-col, .testimonial-col, .project-card');
-            
-            for(var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var revealTop = reveals[i].getBoundingClientRect().top;
-                var revealPoint = 150;
-                
-                if(revealTop < windowHeight - revealPoint) {
-                    reveals[i].classList.add('active');
+
+        // Modal Utility
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal when clicking outside contents
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        /* DYNAMIC CANVAS CIRCUIT CODE */
+        const canvas = document.getElementById('circuit-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = canvas.offsetWidth;
+        let height = canvas.height = canvas.offsetHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = canvas.offsetWidth;
+            height = canvas.height = canvas.offsetHeight;
+        });
+
+        class Node {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.neighbors = [];
+            }
+        }
+
+        class Pulse {
+            constructor(startNode, speed) {
+                this.currentNode = startNode;
+                this.targetNode = null;
+                this.x = startNode.x;
+                this.y = startNode.y;
+                this.speed = speed;
+                this.progress = 0;
+                this.selectNextTarget();
+            }
+
+            selectNextTarget() {
+                if (this.currentNode.neighbors.length > 0) {
+                    const idx = Math.floor(Math.random() * this.currentNode.neighbors.length);
+                    this.targetNode = this.currentNode.neighbors[idx];
+                    this.progress = 0;
+                } else {
+                    this.targetNode = null;
+                }
+            }
+
+            update() {
+                if (!this.targetNode) return false;
+
+                this.progress += this.speed;
+                if (this.progress >= 1) {
+                    this.currentNode = this.targetNode;
+                    this.x = this.currentNode.x;
+                    this.y = this.currentNode.y;
+                    this.selectNextTarget();
+                    if (!this.targetNode) return false;
+                } else {
+                    this.x = this.currentNode.x + (this.targetNode.x - this.currentNode.x) * this.progress;
+                    this.y = this.currentNode.y + (this.targetNode.y - this.currentNode.y) * this.progress;
+                }
+                return true;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = '#00f2fe';
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = '#00f2fe';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        const nodes = [];
+        const pulses = [];
+        const cols = 12;
+        const rows = 8;
+        const spacingX = width / (cols - 1);
+        const spacingY = height / (rows - 1);
+
+        // Generate grid with randomized jitter to look like circuit tracks
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                // Skip some points randomly to create an organic PCB design
+                if (Math.random() > 0.85) continue;
+
+                const jitterX = (Math.random() - 0.5) * spacingX * 0.4;
+                const jitterY = (Math.random() - 0.5) * spacingY * 0.4;
+                const x = c * spacingX + jitterX;
+                const y = r * spacingY + jitterY;
+                nodes.push(new Node(x, y));
+            }
+        }
+
+        // Link close nodes (grid-like connections)
+        const threshold = Math.max(spacingX, spacingY) * 1.5;
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const dx = nodes[i].x - nodes[j].x;
+                const dy = nodes[i].y - nodes[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < threshold && Math.random() > 0.15) {
+                    nodes[i].neighbors.push(nodes[j]);
+                    nodes[j].neighbors.push(nodes[i]);
                 }
             }
         }
+
+        // Initialize pulses
+        for (let p = 0; p < 25; p++) {
+            if (nodes.length > 0) {
+                const start = nodes[Math.floor(Math.random() * nodes.length)];
+                pulses.push(new Pulse(start, 0.005 + Math.random() * 0.01));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw circuit lines
+            ctx.strokeStyle = 'rgba(0, 242, 254, 0.04)';
+            ctx.lineWidth = 1;
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            for (let i = 0; i < nodes.length; i++) {
+                const n = nodes[i];
+                for (let j = 0; j < n.neighbors.length; j++) {
+                    const nb = n.neighbors[j];
+                    // Only draw connection in one direction to avoid redrawing
+                    if (n.x < nb.x || (n.x === nb.x && n.y < nb.y)) {
+                        ctx.moveTo(n.x, n.y);
+                        ctx.lineTo(nb.x, nb.y);
+                    }
+                }
+            }
+            ctx.stroke();
+
+            // Draw nodes
+            ctx.fillStyle = 'rgba(157, 78, 221, 0.12)';
+            for (let i = 0; i < nodes.length; i++) {
+                ctx.beginPath();
+                ctx.arc(nodes[i].x, nodes[i].y, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Draw and update active pulses
+            for (let i = pulses.length - 1; i >= 0; i--) {
+                const p = pulses[i];
+                const active = p.update();
+                if (!active) {
+                    // Respawn pulse at random node
+                    const start = nodes[Math.floor(Math.random() * nodes.length)];
+                    pulses[i] = new Pulse(start, 0.005 + Math.random() * 0.01);
+                } else {
+                    p.draw();
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start circuit particle simulation
+        animate();
     </script>
 </body>
 </html>

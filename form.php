@@ -12,7 +12,7 @@
         <div class="form-section login-section">
             <div class="club-header">
                 <div class="club-logo">
-                    <img src="images/logo1.png" alt="CC Logo" style="width: 50px; height: 50px;">
+                    <img src="logo1.png" alt="CC Logo" style="width: 50px; height: 50px;">
                 </div>
                 <h1>Welcome Back</h1>
                 <p class="subtitle">Sign in to access Circuitology Club resources</p>

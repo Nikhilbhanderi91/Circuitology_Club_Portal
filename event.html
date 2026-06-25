@@ -1,342 +1,883 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Events – Circuitology Club</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --primary-color: #4a6bff;
-      --accent-color: #00c853;
-      --bg-color: #f3f4f6;
-      --card-bg: #ffffff;
-      --text-color: #555;
-      --border-radius: 16px;
-      --shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Events | Circuitology</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://img.icons8.com/color/48/000000/electronics.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Custom Properties / Design Tokens */
+        :root {
+            --bg-darker: #05050a;
+            --bg-dark: #0a0b10;
+            --bg-card: rgba(16, 18, 30, 0.65);
+            --bg-card-hover: rgba(22, 25, 45, 0.85);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-color-glow: rgba(0, 242, 254, 0.3);
+            
+            --neon-cyan: #00f2fe;
+            --neon-blue: #4facfe;
+            --neon-purple: #9d4edd;
+            --neon-pink: #f72585;
+            --neon-amber: #ff7b00;
+            
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-glow: #ffffff;
+            
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --transition-speed: 0.3s;
+            --ease-custom: cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
-    body {
-      background-image: url('1.webp');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-color: rgba(241, 222, 177, 0.905);
-    }
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
 
-    .section {
-      padding: 50px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+        body {
+            background-color: var(--bg-darker);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding-top: 100px;
+        }
 
-    .section h2 {
-      font-size: 32px;
-      color: var(--primary-color);
-      text-align: center;
-      margin-bottom: 20px;
-      color: #dbdada;
-    }
+        /* Ambient Glow Highlights */
+        .ambient-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, rgba(157, 78, 221, 0.06) 50%, transparent 100%);
+            top: 10%;
+            left: -100px;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(50px);
+        }
 
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
+        .ambient-glow-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.08) 0%, rgba(247, 37, 133, 0.04) 60%, transparent 100%);
+            bottom: 10%;
+            right: -200px;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+        }
 
-    .card {
-      background-color: var(--card-bg);
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      padding: 25px;
-      transition: transform 0.3s ease;
-    }
+        /* Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(5, 5, 10, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+        }
 
-    .card:hover {
-      transform: translateY(-10px);
-    }
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
 
-    .card h3 {
-      color: var(--primary-color);
-      margin-bottom: 10px;
-      font-size: 22px;
-    }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 10px;
+        }
 
-    .card p {
-      font-size: 14px;
-      color: var(--text-color);
-      margin-bottom: 20px;
-    }
+        .logo-area img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.5));
+        }
 
-    .event-date {
-      font-size: 14px;
-      color: #888;
-      margin-bottom: 15px;
-    }
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
 
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: var(--accent-color);
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-      cursor: pointer;
-    }
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 25px;
+        }
 
-    .btn:hover {
-      background-color: #000000;
-    }
+        .nav-item a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color var(--transition-speed) ease;
+            position: relative;
+            padding: 8px 0;
+        }
 
-    .divider {
-      margin: 40px 0 20px;
-      font-size: 24px;
-      font-weight: 600;
-      color: #dbdada;
-      text-align: center;
-    }
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
 
-    /* Modal Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-      padding-top: 60px;
-    }
+        .nav-item a:hover {
+            color: var(--neon-cyan);
+        }
 
-    .modal-content {
-      background-color: #fefefe;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 500px;
-      border-radius: 10px;
-      position: relative;
-    }
+        .nav-item a:hover::after {
+            width: 100%;
+        }
 
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 4px;
+            transition: all 0.3s var(--ease-custom);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
 
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
+        .btn-outline {
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            background: transparent;
+            box-shadow: inset 0 0 0 0 rgba(0, 242, 254, 0.2);
+        }
 
-    input[type="text"], input[type="email"], input[type="tel"], select {
-      width: 100%;
-      padding: 6px;
-      margin: 6px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-    }
+        .btn-outline:hover {
+            color: #000;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan);
+            font-weight: 700;
+        }
 
-    input[type="submit"] {
-      background-color: var(--accent-color);
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        .btn-glow {
+            color: #fff;
+            background: linear-gradient(135deg, var(--neon-purple) 0%, var(--neon-blue) 100%);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+        }
 
-    input[type="submit"]:hover {
-      background-color: #729f86;
-    }
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.8);
+            transform: translateY(-2px);
+        }
 
-    .ranking {
-      margin-top: 15px;
-    }
+        /* Layout */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            position: relative;
+            z-index: 10;
+        }
 
-    .ranking p {
-      margin: 5px 0;
-      font-weight: 500;
-    }
-  </style>
+        .section-header {
+            max-width: 700px;
+            margin: 0 auto 50px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--neon-purple);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text-glow);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 10%, #e2e8f0 50%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            margin: 15px auto 0;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .divider-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 50px 0 25px;
+            border-left: 3px solid var(--neon-purple);
+            padding-left: 15px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* Glassmorphic Cyber Cards */
+        .cyber-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-custom);
+            min-height: 280px;
+        }
+
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.04), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-8px);
+            background: var(--bg-card-hover);
+            border-color: var(--border-color-glow);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 242, 254, 0.15);
+        }
+
+        .cyber-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-details h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-glow);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-details p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .event-date {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--neon-amber);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Modals Cyber Design */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 10, 0.8);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-wrapper {
+            background: #0b0c16;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 30px rgba(0, 242, 254, 0.15);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 8px;
+            padding: 40px 30px;
+            position: relative;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s var(--ease-custom);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal.active .modal-wrapper {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--neon-pink);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            border-left: 3px solid var(--neon-cyan);
+            padding-left: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            padding: 10px 14px;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            background: rgba(0, 242, 254, 0.02);
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.15);
+        }
+
+        select.form-input option {
+            background-color: #0b0c16;
+            color: #fff;
+        }
+
+        .ranking-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .rank-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .rank-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank-item strong {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            color: var(--neon-cyan);
+        }
+
+        .rank-item span {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px 30px;
+            margin-top: 100px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #64748b;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--neon-cyan);
+        }
+
+        /* Hamburger Menu Trigger */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive Design Rules */
+        @media (max-width: 991px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 260px;
+                height: calc(100vh - 80px);
+                background: #07080d;
+                border-left: 1px solid var(--border-color);
+                flex-direction: column;
+                padding: 40px 30px;
+                align-items: flex-start;
+                transition: right 0.4s var(--ease-custom);
+                z-index: 999;
+                gap: 25px;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <section class="section">
-    
-    <h2> Circuitology Club Events</h2>
-    
-    <div class="divider">Upcoming Events</div>
-    <div class="cards-container">
-      <div class="card">
-        <h3>PCB Design Workshop</h3>
-        <p>Learn hands-on PCB design using KiCad/Eagle. Perfect for beginners and pros alike.</p>
-        <div class="event-date">Event Date: 25th April 2025</div>
-        <button class="btn" onclick="checkLoginAndRegister('registerModal1')">Register</button>
-      </div>
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-2"></div>
 
-      <div class="card">
-        <h3>IoT-Based Project Building</h3>
-        <p>Build smart solutions using sensors, ESP32, and cloud platforms. Bring your ideas to life!</p>
-        <div class="event-date">Event Date: 5th May 2025</div>
-        <button class="btn" onclick="checkLoginAndRegister('registerModal2')">Register</button>
-      </div>
+    <!-- Navigation Header -->
+    <header id="mainHeader">
+        <div class="nav-container">
+            <a href="index.html#home" class="logo-area">
+                <img src="logo.png" alt="Circuitology Club Logo">
+                <span class="logo-text">Circuitology</span>
+            </a>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
 
-      <div class="card">
-        <h3>Hardware Hackathon</h3>
-        <p>Team up and innovate! Create hardware prototypes for real-world problems in 24 hours.</p>
-        <div class="event-date">Event Date: 15th June 2025</div>
-        <button class="btn" onclick="checkLoginAndRegister('registerModal3')">Register</button>
-      </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html#home">HOME</a></li>
+                <li class="nav-item"><a href="index.html#about">ABOUT</a></li>
+                <li class="nav-item"><a href="event.html">EVENTS</a></li>
+                <li class="nav-item"><a href="project8.html">PROJECTS</a></li>
+                <li class="nav-item"><a href="index.html#contact">CONTACT</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Showcase Container -->
+    <main class="section-container">
+        <div class="section-header">
+            <span class="section-subtitle">Calendar & Competitions</span>
+            <h1 class="section-title">Club Events</h1>
+        </div>
+
+        <div class="divider-title">Upcoming Events</div>
+        <div class="grid-3">
+            <div class="cyber-card">
+                <div class="card-details">
+                    <h3>PCB Design Workshop</h3>
+                    <p>Learn hands-on PCB design using KiCad/Eagle. Perfect for beginners and pros alike.</p>
+                    <div class="event-date"><i class="far fa-calendar-alt"></i> 25th April 2025</div>
+                </div>
+                <button class="btn btn-glow" style="width: 100%;" onclick="checkLoginAndRegister('registerModal1')">Register Now</button>
+            </div>
+
+            <div class="cyber-card">
+                <div class="card-details">
+                    <h3>IoT-Based Project Building</h3>
+                    <p>Build smart solutions using sensors, ESP32, and cloud platforms. Bring your ideas to life!</p>
+                    <div class="event-date"><i class="far fa-calendar-alt"></i> 5th May 2025</div>
+                </div>
+                <button class="btn btn-glow" style="width: 100%;" onclick="checkLoginAndRegister('registerModal2')">Register Now</button>
+            </div>
+
+            <div class="cyber-card">
+                <div class="card-details">
+                    <h3>Hardware Hackathon</h3>
+                    <p>Team up and innovate! Create hardware prototypes for real-world problems in 24 hours.</p>
+                    <div class="event-date"><i class="far fa-calendar-alt"></i> 15th June 2025</div>
+                </div>
+                <button class="btn btn-glow" style="width: 100%;" onclick="checkLoginAndRegister('registerModal3')">Register Now</button>
+            </div>
+        </div>
+
+        <div class="divider-title">Finished Events</div>
+        <div class="grid-3">
+            <div class="cyber-card">
+                <div class="card-details">
+                    <h3>Embedded Systems Challenge</h3>
+                    <p>Participants solved real-time microcontroller tasks using Arduino and STM32 boards.</p>
+                </div>
+                <button class="btn btn-outline" style="width: 100%;" onclick="showSummary('Embedded Systems Challenge', ['Alice Sharma', 'Raj Patel', 'Megha Rao'])"><i class="fas fa-trophy" style="margin-right: 8px;"></i>View Results</button>
+            </div>
+
+            <div class="cyber-card">
+                <div class="card-details">
+                    <h3>Circuit Debugging Competition</h3>
+                    <p>A fierce challenge of logic and speed to fix broken circuits in record time.</p>
+                </div>
+                <button class="btn btn-outline" style="width: 100%;" onclick="showSummary('Circuit Debugging Competition', ['Neha Jain', 'Aman Verma', 'Riya Shah'])"><i class="fas fa-trophy" style="margin-right: 8px;"></i>View Results</button>
+            </div>
+
+            <div class="cyber-card">
+                <div class="card-details">
+                    <h3>Soldering Mastery Bootcamp</h3>
+                    <p>Hands-on session where members perfected their soldering techniques on real boards.</p>
+                </div>
+                <button class="btn btn-outline" style="width: 100%;" onclick="showSummary('Soldering Mastery Bootcamp', ['Kunal Das', 'Simran Kaur', 'Dev Mehta'])"><i class="fas fa-trophy" style="margin-right: 8px;"></i>View Results</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals for registration -->
+    <div id="registerModal1" class="modal">
+        <div class="modal-wrapper">
+            <span class="modal-close" onclick="closeModal('registerModal1')"><i class="fas fa-times"></i></span>
+            <h3 class="modal-title">Register: PCB Design Workshop</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" placeholder="Your Name" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Enrollment Number</label>
+                    <input type="text" class="form-input" placeholder="Enrollment No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="name@domain.com" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" placeholder="Phone No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">GR Number</label>
+                    <input type="text" class="form-input" placeholder="GR No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Semester</label>
+                    <input type="text" class="form-input" placeholder="Semester" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <select class="form-input" required>
+                        <option value="IC">Information & Communication Engineering</option>
+                        <option value="CSE">Computer Science Engineering</option>
+                        <option value="ECE">Electronics and Communication Engineering</option>
+                        <option value="ME">Mechanical Engineering</option>
+                        <option value="CE">Civil Engineering</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-glow" style="width: 100%; padding: 12px;">Submit Application</button>
+            </form>
+        </div>
     </div>
 
-    <div class="divider">Finished Events</div>
-    <div class="cards-container">
-      <div class="card">
-        <h3>Embedded Systems Challenge</h3>
-        <p>Participants solved real-time microcontroller tasks using Arduino and STM32 boards.</p>
-        <button class="btn" onclick="showSummary('Embedded Systems Challenge', ['Alice Sharma', 'Raj Patel', 'Megha Rao'])">Complete</button>
-      </div>
-
-      <div class="card">
-        <h3>Circuit Debugging Competition</h3>
-        <p>A fierce challenge of logic and speed to fix broken circuits in record time.</p>
-        <button class="btn" onclick="showSummary('Circuit Debugging Competition', ['Neha Jain', 'Aman Verma', 'Riya Shah'])">Complete</button>
-      </div>
-
-      <div class="card">
-        <h3>Soldering Mastery Bootcamp</h3>
-        <p>Hands-on session where members perfected their soldering techniques on real boards.</p>
-        <button class="btn" onclick="showSummary('Soldering Mastery Bootcamp', ['Kunal Das', 'Simran Kaur', 'Dev Mehta'])">Complete</button>
-      </div>
+    <div id="registerModal2" class="modal">
+        <div class="modal-wrapper">
+            <span class="modal-close" onclick="closeModal('registerModal2')"><i class="fas fa-times"></i></span>
+            <h3 class="modal-title">Register: IoT Project Building</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" placeholder="Your Name" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Enrollment Number</label>
+                    <input type="text" class="form-input" placeholder="Enrollment No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="name@domain.com" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" placeholder="Phone No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">GR Number</label>
+                    <input type="text" class="form-input" placeholder="GR No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Semester</label>
+                    <input type="text" class="form-input" placeholder="Semester" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <select class="form-input" required>
+                        <option value="IC">Information & Communication Engineering</option>
+                        <option value="CSE">Computer Science Engineering</option>
+                        <option value="ECE">Electronics and Communication Engineering</option>
+                        <option value="ME">Mechanical Engineering</option>
+                        <option value="CE">Civil Engineering</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-glow" style="width: 100%; padding: 12px;">Submit Application</button>
+            </form>
+        </div>
     </div>
-  </section>
 
-  <!-- Modals for registration -->
-  <div id="registerModal1" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('registerModal1')">&times;</span>
-      <h3>Register for PCB Design Workshop</h3>
-      <form>
-        <input type="text" placeholder="Name" required />
-        <input type="text" placeholder="Enrollment Number" required />
-        <input type="email" placeholder="Email Address" required />
-        <input type="tel" placeholder="Phone Number" required />
-        <input type="text" placeholder="GR Number" required />
-        <input type="text" placeholder="Semester" required />
-        <select required>
-          <option value="IC">Information & Communication Engineering</option>
-          <option value="CSE">Computer Science Engineering</option>
-          <option value="ECE">Electronics and Communication Engineering</option>
-          <option value="ME">Mechanical Engineering</option>
-          <option value="CE">Civil Engineering</option>
-        </select>
-        <input type="submit" value="Submit" />
-      </form>
+    <div id="registerModal3" class="modal">
+        <div class="modal-wrapper">
+            <span class="modal-close" onclick="closeModal('registerModal3')"><i class="fas fa-times"></i></span>
+            <h3 class="modal-title">Register: Hardware Hackathon</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" placeholder="Your Name" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Enrollment Number</label>
+                    <input type="text" class="form-input" placeholder="Enrollment No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="name@domain.com" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" placeholder="Phone No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">GR Number</label>
+                    <input type="text" class="form-input" placeholder="GR No." required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Semester</label>
+                    <input type="text" class="form-input" placeholder="Semester" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <select class="form-input" required>
+                        <option value="IC">Information & Communication Engineering</option>
+                        <option value="CSE">Computer Science Engineering</option>
+                        <option value="ECE">Electronics and Communication Engineering</option>
+                        <option value="ME">Mechanical Engineering</option>
+                        <option value="CE">Civil Engineering</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-glow" style="width: 100%; padding: 12px;">Submit Application</button>
+            </form>
+        </div>
     </div>
-  </div>
 
-  <div id="registerModal2" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('registerModal2')">&times;</span>
-      <h3>Register for IoT-Based Project Building</h3>
-      <form>
-        <input type="text" placeholder="Name" required />
-        <input type="text" placeholder="Enrollment Number" required />
-        <input type="email" placeholder="Email Address" required />
-        <input type="tel" placeholder="Phone Number" required />
-        <input type="text" placeholder="GR Number" required />
-        <input type="text" placeholder="Semester" required />
-        <select required>
-          <option value="IC">Information & Communication Engineering</option>
-          <option value="CSE">Computer Science Engineering</option>
-          <option value="ECE">Electronics and Communication Engineering</option>
-          <option value="ME">Mechanical Engineering</option>
-          <option value="CE">Civil Engineering</option>
-        </select>
-        <input type="submit" value="Submit" />
-      </form>
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="modal">
+        <div class="modal-wrapper">
+            <span class="modal-close" onclick="closeModal('summaryModal')"><i class="fas fa-times"></i></span>
+            <h3 class="modal-title" id="summaryTitle">Event Results</h3>
+            
+            <div class="ranking-box">
+                <div class="rank-item">
+                    <strong><i class="fas fa-medal" style="color: gold; margin-right: 6px;"></i> 1st Place</strong>
+                    <span id="rank1"></span>
+                </div>
+                <div class="rank-item">
+                    <strong><i class="fas fa-medal" style="color: silver; margin-right: 6px;"></i> 2nd Place</strong>
+                    <span id="rank2"></span>
+                </div>
+                <div class="rank-item">
+                    <strong><i class="fas fa-medal" style="color: #cd7f32; margin-right: 6px;"></i> 3rd Place</strong>
+                    <span id="rank3"></span>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div id="registerModal3" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('registerModal3')">&times;</span>
-      <h3>Register for Hardware Hackathon</h3>
-      <form>
-        <input type="text" placeholder="Name" required />
-        <input type="text" placeholder="Enrollment Number" required />
-        <input type="email" placeholder="Email Address" required />
-        <input type="tel" placeholder="Phone Number" required />
-        <input type="text" placeholder="GR Number" required />
-        <input type="text" placeholder="Semester" required />
-        <select required>
-          <option value="IC">Information & Communication Engineering</option>
-          <option value="CSE">Computer Science Engineering</option>
-          <option value="ECE">Electronics and Communication Engineering</option>
-          <option value="ME">Mechanical Engineering</option>
-          <option value="CE">Civil Engineering</option>
-        </select>
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
-  </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Circuitology Club. All rights reserved.</p>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/circuitology_club?igsh=Mmt6YTA2d3BsOG9r" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/circuitology-club/" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.youtube.com/@ICTMarwadiUniversity" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
 
-  <!-- Summary Modal -->
-  <div id="summaryModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('summaryModal')">&times;</span>
-      <h3 id="summaryTitle"></h3>
-      <div class="ranking">
-        <p><strong>1st Place:</strong> <span id="rank1"></span></p>
-        <p><strong>2nd Place:</strong> <span id="rank2"></span></p>
-        <p><strong>3rd Place:</strong> <span id="rank3"></span></p>
-      </div>
-    </div>
-  </div>
+    <!-- Interactive Scripts -->
+    <script>
+        // Hamburger Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
 
-  <script>
-    function openModal(modalId) {
-      document.getElementById(modalId).style.display = "block";
-    }
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
 
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = "none";
-    }
+        // Modal Utility
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
 
-    function showSummary(eventName, winners) {
-      document.getElementById("summaryTitle").innerText = eventName + " Summary";
-      document.getElementById("rank1").innerText = winners[0];
-      document.getElementById("rank2").innerText = winners[1];
-      document.getElementById("rank3").innerText = winners[2];
-      openModal("summaryModal");
-    }
-  
-  function checkLoginAndRegister(modalId) {
-    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-    if (!isLoggedIn) {
-      alert("You need to be logged in to register for an event.");
-      window.location.href = "login.html";
-    } else {
-      openModal(modalId);
-    }
-  }
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
 
-  function logout() {
-    localStorage.removeItem("loggedIn");
-    alert("You have been logged out.");
-    location.reload();
-  }
-</script>
+        // Close on backdrop click
+        window.onclick = function (e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        };
 
+        // Custom Event Handlers
+        function showSummary(eventName, winners) {
+            document.getElementById("summaryTitle").innerText = eventName + " Winners";
+            document.getElementById("rank1").innerText = winners[0];
+            document.getElementById("rank2").innerText = winners[1];
+            document.getElementById("rank3").innerText = winners[2];
+            openModal("summaryModal");
+        }
+      
+        function checkLoginAndRegister(modalId) {
+            const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+            if (!isLoggedIn) {
+                alert("You need to be logged in to register for an event.");
+                window.location.href = "form.php";
+            } else {
+                openModal(modalId);
+            }
+        }
+    </script>
 </body>
 </html>
